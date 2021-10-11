@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>ok</button>
+    <script>
+        const person = {
+            firstName: "John",
+            lastName: "Doe",
+            language: "en",
+            get lang() {
+                return this.language;
+            },
+            set name(first){
+                this.firstName = first;
+            }
+        };
+        //get,set은 메소드 형식ㅇㄴ라ㅓㅡ하ㅣㅁㄹ어히ㅏ얼히ㅏ
+        person.name = 'Hong';
+        console.log(person.firstName, person.lang);
+
+        //오브젝트 타입 활용 
+        // let obj = {
+        //     name: 'hong',
+        //     age: 20
+        // };
+
+        // obj = new Object();
+        // obj.name = "Hwang";
+        // obj.age = 23; 
+        // obj['hobby'] = 'reading';
+
+        // let trueorFalse = true;
+
+       // trueorFalse = new Boolean(true);
+
+        // let div = document.createElement('div');
+        // div.setAttribute('data-id', 20);
+        // div.setAttribute('data-name', 'hong');
+
+        // localStorage.setItem('user_id', 'admin');
+
+        // localStorage.setItem('data', 'hello');
+
+        // document.querySelector('button').onclick = function(){
+        //     console.log(localStorage.getItem('user_id'));
+        // }
+
+
+        // fetch('get.json')
+        //     .then(x => x.json())
+        //     .then(result => createPage(result));
+
+        //     function createPage(val) {
+        //         console.log(val);
+        //     }
+    </script>
+</body>
+
+</html>
