@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/array.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="show"></div>
+
+    <script>
+        function Member(id, name, phone) {
+            this.id = id;
+            this.name = name;
+            this.phone = phone;
+
+        }
+        const members = [new Member('user1', '홍길동', '1234')];
+        members.push(new Member('user2', '김민주', '4567'));
+        members.push(new Member('user3', '설민석', '3456'));
+
+
+        //테이블 
+        let table = document.createElement('table');
+        table.setAttribute('border', '1');
+        let tbody = document.createElement('tbody');
+        table.appendChild(tbody);
+        document.getElementById('show').appendChild(table);
+
+        //(오브젝트, 인덱스)
+        members.forEach(function (obj, ind) {
+            let tr = document.createElement('tr');
+            //obj의 갯수만큼 포문 돌려서 td를 만들겠다
+            for (let field in obj) {
+                let td = document.createElement('td');
+                //obj가 가지고 있는 값을 넣는다
+                td.innerHTML = obj[field];
+                tr.appendChild(td);
+            }
+            //for문으로 만든 걸 tbody에 넣는다 
+            tbody.appendChild(tr);
+        });
+
+        //jquery : (1)
+        // $('tr').each(function (ind, obj) {
+        //     //console.log($(obj));
+        //     $(obj).click(function () {
+        //         window.alert($(this).children().eq(1).text());
+        //     });
+        //     $(this).mouseover(function () { // $(this)=> tr 태그 
+        //         $(this).css('background-color', 'yellow');
+        //     });
+        //     $(this).on('mouseout', function () {
+        //         //$(this).mouseout (function(){
+        //         $(this).css('background-color', '');
+        //     });
+        // });
+
+        // jquery : (2) => 라이브 이벤트 등록 
+        //$('table')로 사용 가능
+        $(document).on('click', 'tr', function (event) {
+            //콘솔창에서 어떤 태그인지 확인해보기~~하하하
+            //console.log($(event.target).parent())
+            //window.alert($(event.target).eq(1).html());
+            window.alert($(event.target).parent().children().eq(1).html());
+        });
+
+        $(document).on('mouseover', 'tr', function (event) {
+            $(event.target).parent().css('background-color', 'yellow');
+        });
+
+        $(document).on('mouseout', 'tr', function (event) {
+            $(event.target).parent().css('background-color', '');
+        });
+
+
+        //$(members).each();
+        $.each(members, function (idx, obj) {
+            console.log(idx, obj);
+            let $tr = $('<tr/>').append( //
+                $('<td/>').html(obj.id) //
+                , $('<td/>').html(obj.name) //
+                , $('<td/>').html(obj.phone)
+            );
+            //$(table).append($tr);
+            //제이쿼리 오브젝트를 자바스크립트 오브젝트로 바꿔주는 것
+            tbody.appendChild($tr.get(0)); // get(): jquery -> javascript 타입 변환
+        });
+    </script>
+
+
+</body>
+
+</html>

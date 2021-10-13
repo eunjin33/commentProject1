@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/select_fnc.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        //document).ready() 생략 가능 
+        $(function () {
+            $('button').eq(0).click(findFnc);
+            $('button').eq(1).click(function () {
+                $('tbody>tr>td>input').filter(':checked').parentsUntil('tbody').remove();
+
+            });
+        });
+        //find는 상위요소에서??? filter는 가지고 온 요소들 중에서???
+        function findFnc() {
+            let trVal = $('tbody>tr');
+            $(trVal).find('td:nth-child(1)').css('background-color', 'yellow');
+            $(trVal).find('input:checked').parent().css('background-color', 'blue');
+
+            //javascript
+            // trVal = document.querySelectorAll('tbody>tr>td:nth-child(1)');
+            // for (let tr of trVal) {
+            //     tr.style.backgrondColor = 'yellow';
+            // }
+            //$('tbody>tr>td:contains(3.5)').css('color', 'red');
+            $(trVal).find('td:contains(jpg)').css('color', 'red');
+            console.log($(trVal).find('input:checked').parent().next().contents());
+
+        }
+
+        function filterFnc() {
+            let checkVal = $('tbody>tr>td>input');
+            console.log(checkVal);
+
+            $(checkVal).filter(':checked').parent().parent().css('background-color', 'yellow');
+            $(checkVal).filter(function (idx, ele) {
+                if (idx % 2 == 0) {
+                    return true;
+                }
+            }).parentsUntil('tbody').css('color', 'red');
+
+            //가지고 온 요소들로 filter 걸려서 설정 
+            checkVal = $('tbody>tr>td');
+            $(checkVal).filter(':has(input)').css('border', '2px solid red');
+        }
+    </script>
+</head>
+
+<body>
+    <div id="show"></div>
+    <button>클릭</button><button>삭제</button>
+    <script>
+        fetch('coffee.json')
+            .then(x => x.json()) // .then(function(x) {return })??
+            .then(data => createTable(data));
+
+        function createTable(data) {
+            console.log(data);
+            let table = document.createElement('table');
+            table.setAttribute('border', '1');
+            let tbody = document.createElement('tbody');
+            table.appendChild(tbody);
+
+            //tbody => tr 생성 
+            data.forEach((obj, idx) => {
+                let tr = document.createElement('tr');
+                let checkTd = document.createElement('td');
+                if (idx == 3)
+                    checkTd.innerHTML = '<input type = "checkbox" checked>';
+                else
+                    checkTd.innerHTML = '<input type = "checkbox">';
+                tr.appendChild(checkTd);
+                // for (in) 반복문 돌아서 
+                for (let field in obj) {
+                    let td = document.createElement('td');
+                    td.innerHTML = obj[field];
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            });
+            document.getElementById('show').appendChild(table);
+
+        }
+    </script>
+</body>
+
+</html>

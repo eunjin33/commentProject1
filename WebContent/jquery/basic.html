@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/basic.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        //$(선택자를 넣어줌 )
+        //document가 준비가 되면.ready(실행할 코드)
+        $(document).ready(function () {
+            let p_html = $('div > p').html();
+            console.log(p_html);
+
+            //$ 붙으면 jquery(라이버리를 사용) 오브젝트 
+            let p = $('<p class ="first" style="color : red;">hello, world</p>'); // let p = document.createElement('p');
+            // $(p).html('hello, world'); //p.innerHTML = "hello, world";
+            $(p).css('background-color', 'yellow');
+            console.log(p);
+
+            //위에서 선언한 P요소를(태그) 바디 태그('body')에 붙이겠습니다 
+            $('body').append(p);
+
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <p>hello, world</p>
+    </div>
+</body>
+
+</html>

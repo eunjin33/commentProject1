@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/mod_dom.hmtl</title>
+    <script src="jquery-3.6.0.min.js"></script>
+    <style>
+        #show {
+            border: 3px dotted red;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="show"></div>
+    <script>
+        //before, after
+        $('#show').after($('<p>Hello, Wored</p>'));
+        $('<p>insertBefore</p>').insertBefore($('#show'));
+
+        //append(마지막) prepend(앞)
+        $('#show').append($('<p>inner</p>'));
+        $('#show').append($('<p>inner2</p>'));
+        $('#show').prepend($('<p>inner_prepend</p>'));
+        $($('<p>prependTO</p>')).prependTo($('#show'));
+        $($('<p>appendTo</p>')).appendTo($('#show'));
+
+        let cloned = $('#show').clone();
+        console.log(cloned);
+
+        $('#show+p').after(cloned);
+        //$(cloned).empty(); //remove: 요소삭제 , empty: 하위요소삭제
+        $(cloned).find('p:contains(prependTO)').replaceWith('<div>prependTO</div>');
+        $('<div>replaceAll</div>').replaceAll($(cloned).find('p:contains(inner2)'));
+
+        $(cloned).find('p').wrapInner('<div/>');
+    </script>
+</body>
+
+</html>

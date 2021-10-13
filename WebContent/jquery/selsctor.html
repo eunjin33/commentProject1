@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery/selector.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function callFnc() {
+            //ul 태그를 만들고 하위에 li 태그를 만든다 
+            let ul = $('<ul/>').append($('<li>apple</li>'), $('<li>mango</li>'));
+
+            //ul= document.createElement('ul');
+
+            //ul태그를 id=show인 태그 아래에 하위로 넣는다 
+            $(ul).css('color', 'red')
+                .css('background-color', 'yellow')
+                .attr('id', 'fruit')
+                .attr('class', 'first');
+
+            $('#show').append(ul);
+
+        }
+        //ready 메소드에 매개값으로 들어가는 callFnc는 콜백함수????
+        $(document).ready(yourFun);
+
+        function yourFun() {
+
+            let table = $('<table/>').attr('id', 'tbl').attr('border', '1');
+            let thead = $('<thead>').append($('<tr>').append($('<th>이름</th><th>나이</th><th>기능</th>')))
+            //let tbody = $('<tbody>').append(tr);
+            let tr1 = $('<tr/>').append($('<td>홍길동</td><td>20</td><td><button>삭제</button></td>'));
+            let tr2 = $('<tr/>').append($('<td>김민주</td><td>21</td><td><button>삭제</button></td>'));
+            let tbody = $('<tbody>').append(tr1, tr2);
+            $(table).append(thead);
+            $(table).append(tbody);
+
+            $('#show').append(table);
+
+            //요소 찾아오기 
+            $('thead>tr:nth-child(1)').css('background-color', 'yellow');
+            //tbody 아래 tr 자식의 2번째 자식(eq(1))의 html 값을 30으로 수정한다  
+            $('tbody>tr').eq(0).children().eq(1).html(30);
+            $('tr').eq(2).children().eq(0).attr('id', 'second');
+            //하위 태그에서 상위 태그를 가지고 오는 것 
+            console.log($('#second').parent().prev().children().first().attr('id', 'first'));
+            // id 값이 #first인 것의 next() 아래(형제)를 가지고 와서 색을 바꾼다 
+            console.log($('#first').next().css('color', 'red'));
+
+
+            //이벤트 추가
+            //on('이벤트 이름', '기능(핸들러)' 메소드 
+            $('button').on('click', function () {
+                console.log($(this)); //버튼 
+                //버튼의 
+                $(this).parent().parent().remove();
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div id="show">
+        <!-- <table id ='tlb' border="1">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>나이</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>홍길동</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>김민주</td>
+                    <td>21</td>
+                </tr>
+            </tbody>
+        </table> -->
+    </div>
+
+</body>
+
+</html>
