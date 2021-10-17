@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>apiData/sample.html</title>
+    <script src="../jquery/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <script>
+        //xml 데이터를 가지고 왔다 
+        $.ajax({
+            url: '../SampleDataSerlvlet',
+            dataType: 'xml',
+            type: 'get',
+            data: {
+                numberOfRow: 10,
+                pageNo: 2,
+                startDate: '20211001',
+                endDate: '20211010'
+            },
+            success: function (result) {
+                console.log(result);
+                let table = $('<table border="1" />');
+                $(table).html('<tr><th>검사수</th><th>확진자수</th><th>사망자수</th></tr>');
+                $('body').append(table);
+
+
+                let items = $(result).find('body>items>item');
+                for (let i = 0; i < items.length; i++) {
+                    let item = $(items).eq(i); //<item><acc></acc><dec></dec></item>
+                    $(table).append(createRow(item));
+
+                    console.log('검사수:', $(item).find('examCnt').html(),
+                        '확진자수:', $(item).find('decideCnt').html(),
+                        '사망자수:', $(item).find('deathCnt').html());
+
+                    //console.log('확진자수:',$(items).eq(i).children().eq(7).html());
+
+                }
+            },
+            error: function (reject) {
+                console.log(reject);
+            }
+        });
+
+        function createRow(row) {
+            let tr = $('<tr/>');
+            $(tr).append(
+                $('<td/>').html($(row).find('examCnt').html()),
+                $('<td/>').html($(row).find('decideCnt').html()),
+                $('<td/>').html($(row).find('deathCnt').html()),
+
+            )
+            return tr;
+
+        }
+    </script>
+</body>
+
+</html>

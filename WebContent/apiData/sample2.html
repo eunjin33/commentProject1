@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>apiData/sample2.html</title>
+<script src="../jquery/jquery-3.6.0.min.js"></script>
+<style>
+#city>div {
+	display: inline-block;
+	margin: 2px;
+}
+
+#city>div.active>button {
+	background-color: rgb(61, 61, 61);
+	color: white;
+	font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+	<div id="city"></div>
+	<div id="show"></div>
+
+	<script>
+        let caregories = [{
+                code: '서울',
+                city: '서울특별시'
+            },
+            {
+                code: '대전',
+                city: '대전광역시'
+            },
+            {
+                code: '대구',
+                city: '대구광역시'
+            },
+            {
+                code: '울산',
+                city: '울산광역시'
+            },
+            {
+                code: '부산',
+                city: '부산광역시'
+            }
+        ];
+
+        for (let category of caregories) {
+            let div = $('<div/>').addClass('city');
+            $(div).html('<button onclick="chooseCity(\'' + category.city + '\')" >' + category.code + '</button>');
+            $('#city').append(div);
+        }
+
+        //cityName과 같은 값이 들어오면 화면에 배열로 보여준다????????? 흠 
+        function chooseCity(cityName) {
+            //cityName: 서울특별시가 들어오면 서울특별시가 들어간 sido에 서울특별시가 있는 데이터만 데리고 온다
+            //obj 배열에 있는 요소..? grep 참인 값만 리턴해준다 
+            //조건에 만족하는 데이터를 selectedCities에 담았다 
+            $('#city>city').removeClass('active');
+            $(event.target).parent().addClass('active');
+
+            let selectedCities = $.grep(cities, function (obj) {
+                return obj.sido === cityName;
+            })
+            // <div id="show"></div> 가지고온 변수를 테이블 태그 사용해서 show에 담는다
+            $('#show').empty(); //하위 데이터를 지운다 
+
+            let table, tbody, tr, td;
+            table = $('<table />').attr('border', '1');
+            $(table).html(
+                '<thead><tr><th>id</th><th>centerName</th><th>sido</th><th>facilityName</th><th>link</th></tr></thead>'
+            );
+
+
+            //td영역 그리기 
+            //selectedCities 중에서 실행할 값...??????엥 
+            $.each(selectedCities, function (idx, obj) {
+                $(table).append(makeDiv(obj));
+            });
+
+            $('#show').append(table); //화면에 보여지는 과정
+
+        }
+
+        function makeDiv(row) {
+            let div = $('<tr/>').append( //
+                $('<td/>').html(row.id), //
+                $('<td/>').html(row.centerName), //
+                $('<td/>').html(row.sido), //
+                $('<td/>').html(row.facilityName), //
+                $('<td/>').html('<a href="daum_map.jsp?x=' + row.lat + '&y=' + row.lng +'"target="_blank">지도</a>') //
+
+            );
+            return div;
+        }
+
+        //api데이터를 가지고 와서 -> cities(변수) 배열에 저장하는 과정 
+        let cities = [];
+        $.ajax({
+            url: 'open_api.json',
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+                //배열 정보를 다시 data라는 변수에 담겠다 
+                let data = result.data;
+                for (let datum of data) {
+                    //cities라는 변수에서 data 부분만 담는다 
+                    cities.push(datum);
+                }
+                chooseCity('서울특별시');
+            },
+            error: function (reject) {
+                console.log(reject);
+            }
+
+        });
+    </script>
+</body>
+
+</html>

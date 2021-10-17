@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>cookie/cookie.html</title>
+</head>
+
+<body>
+    <button>Login</button>
+    <button>Logout</button>
+    <button>Check</button>
+
+    <script>
+        let storedUsers = [{
+                name: '홍길동',
+                id: 'hong',
+                pw: '1111'
+            },
+            {
+                name: '김민수',
+                id: 'kim',
+                pw: '2222'
+            },
+            {
+                name: '박순억',
+                id: 'park',
+                pw: '3333'
+            }
+        ]
+
+        //로그인 아이디와 패스워드 확인? 
+        function login(id, passwd) {
+            for (let i = 0; i < storedUsers.length; i++) {
+                //사용자가 입력한 id 값이 오브젝트가 가지고 있는 값과 같으면 
+                if (id === storedUsers[i].id && passwd === storedUsers[i].pw) {
+                    return storedUsers[i];
+                    break;
+
+                }
+            }
+            return null;
+        }
+
+        function logout() {
+            document.cookie = 'username=; expires=0; path=/';
+            document.cookie = 'userid=; expires=0; path=/';
+        }
+
+        //정보를 담겠다 setCookie 실행되는 시간을 엥 
+        //1000*60 = 1분 
+        function setCookie(cname, cval) {
+            const times = 3;
+            const d = new Date();
+            d.setTime(d.getTime() + 1000 * 60);
+            document.cookie = cname + '=' + cval + '; expires=' + d.toUTCString + '; path=/';
+            //username= hong; expires = 2021 10 14 : 12:00:00;(유효시간) path=/(전체 경로에서 사용 )
+            //쿠키에 내용이 다 들어간다? 
+            //username=hongkil; userid=hong; userinfo=???
+        }
+
+        //
+        function getCookie(cname) {
+            let cookies = document.cookie.split('; ');
+            for (let i = 0; i < cookies.length; i++) {
+                if (cookies[i].indexOf(cname) === 0) {
+                    let result = cookies[i].substring(cname.length + 1);
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        let btns = document.getElementsByTagName('button');
+
+        //Login 버튼
+        //첫번째 버튼에 이벤트를 달아준다(클릭을 하면 function 실행 )
+        btns[0].onclick = function () {
+            let info = login('hong', '1111')
+            if (info) {
+                alert('성공');
+                console.log(info.name);
+                setCookie('username', info.name);
+                setCookie('userid', info.id);
+            } else {
+                alert('실패');
+            }
+        }
+
+        //logout 버튼
+        btns[1].onclick = function () {
+            logout();
+            alert('logout 완료');
+        }
+
+        //Check 버튼
+        btns[2].onclick = function () {
+            let result = getCookie('username');
+            result = getCookie('userid');
+            console.log(result);
+        }
+    </script>
+</body>
+
+</html>
