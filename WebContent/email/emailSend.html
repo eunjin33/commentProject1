@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="../jquery/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+	<form action="" id="mailFrm" onsubmit="return mailSubnit">
+		<div>
+			<label for="title">제목:</label>
+			<input type="text" name="title" value="테스트">
+		</div>
+		<div>
+			<label for="content">내용:</label>
+			<textarea name="content" cols="30" rows="10"></textarea>
+		</div>
+		<div>
+			<input type="submit" value="메일보내기">
+			<input type="reset" value="다시작성">
+		</div>
+	</form>
+
+	<script>
+		//아작스 호출을 만들어서 사용가자 입력한 값을 넘긴다 
+		//false 값이 넘어오면 페이지 이동을 안 한다 
+		function mailSubnit(){
+			//event.preventDefault();
+
+			$.ajax({
+				url:'../MailSendSerlvet',
+				data: $('#mailFrm').serialize(),
+				dataType: 'json',
+				success: function (result){
+					console.logresult();
+				},
+				error: function(reject){
+					console.log(reject);
+				}
+			});
+
+
+			return false;
+		}
+	</script>
+
+</body>
+
+</html>
